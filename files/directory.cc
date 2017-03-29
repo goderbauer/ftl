@@ -4,11 +4,21 @@
 
 #include "lib/ftl/files/directory.h"
 
+#include "lib/ftl/build_config.h"
+
 #include <vector>
 
 #include <limits.h>
 #include <sys/stat.h>
+#if defined(OS_WIN)
+#include <direct.h>
+#include <stdlib.h>
+#define PATH_MAX _MAX_PATH
+#define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
+#define mkdir(path, mode) _mkdir(path)
+#else
 #include <unistd.h>
+#endif
 
 #include "lib/ftl/files/path.h"
 #include "lib/ftl/logging.h"

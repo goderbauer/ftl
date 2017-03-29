@@ -5,7 +5,16 @@
 #ifndef LIB_FTL_FILES_EINTR_WRAPPER_H_
 #define LIB_FTL_FILES_EINTR_WRAPPER_H_
 
+#include "lib/ftl/build_config.h"
+
 #include <errno.h>
+
+#if defined(OS_WIN)
+
+#define HANDLE_EINTR(x) x
+#define IGNORE_EINTR(x) x
+
+#else
 
 #if defined(NDEBUG)
 
@@ -44,5 +53,7 @@
     } while (0);                                          \
     eintr_wrapper_result;                                 \
   })
+
+#endif // defined(OS_WIN)
 
 #endif  // LIB_FTL_FILES_EINTR_WRAPPER_H_

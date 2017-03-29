@@ -5,10 +5,17 @@
 #ifndef LIB_FTL_FILES_FILE_H_
 #define LIB_FTL_FILES_FILE_H_
 
+#include "lib/ftl/build_config.h"
+
 #include <stdint.h>
 
 #include <string>
 #include <vector>
+
+#if defined(OS_WIN)
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
 
 namespace files {
 

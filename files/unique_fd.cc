@@ -4,7 +4,13 @@
 
 #include "lib/ftl/files/unique_fd.h"
 
+#include "lib/ftl/build_config.h"
+
+#if defined(OS_WIN)
+#include <io.h>
+#else
 #include <unistd.h>
+#endif // defined(OS_WIN)
 
 namespace ftl {
 namespace internal {

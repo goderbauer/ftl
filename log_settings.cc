@@ -4,9 +4,17 @@
 
 #include "lib/ftl/log_settings.h"
 
+#include "lib/ftl/build_config.h"
+
 #include <fcntl.h>
 #include <string.h>
+
+#if defined(OS_WIN)
+#include <io.h>
+#define STDERR_FILENO _fileno(stderr)
+#else
 #include <unistd.h>
+#endif // defined(OS_WIN)
 
 #include <algorithm>
 #include <iostream>
