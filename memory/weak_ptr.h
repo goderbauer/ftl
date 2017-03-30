@@ -56,21 +56,17 @@ class WeakPtr {
   // called subject to additional synchronization.
 
   // Copy assignment.
-  WeakPtr<T>& operator=(const WeakPtr<T>& r) = default;
-
-  template <typename U>
   WeakPtr<T>& operator=(const WeakPtr<T>& r) {
     ptr_ = r.ptr_;
     flag_ = r.flag_;
+    return *this;
   }
 
   // Move assignment.
-  WeakPtr<T>& operator=(WeakPtr<T>&& r) = default;
-
-  template <typename U>
   WeakPtr<T>& operator=(WeakPtr<T>&& r) {
     ptr_ = r.ptr_;
     flag_ = std::move(r.flag_);
+    return *this;
   }
 
   void reset() { flag_ = nullptr; }

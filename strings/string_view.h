@@ -12,6 +12,11 @@
 #include "lib/ftl/logging.h"
 
 namespace ftl {
+namespace {
+  int constexpr length(const char* str) {
+    return *str ? 1 + length(str + 1) : 0;
+  }
+} // namespace
 
 // A string-like object that points to a sized piece of memory.
 class StringView {
@@ -22,7 +27,7 @@ class StringView {
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
   using reverse_iterator = const_reverse_iterator;
 
-  constexpr static size_t npos = std::string::npos;
+  constexpr static size_t npos = static_cast<size_t>(-1);
 
   // Constructors.
   constexpr StringView() : data_(""), size_(0u) {}
@@ -32,15 +37,14 @@ class StringView {
 
   constexpr StringView(const char* str, size_t len) : data_(str), size_(len) {}
 
-  // strlen is not a constexpr function in clang, using __builtin_strlen that
-  // acts like one.
+  // strlen is not a constexpr function, using length from above.
   explicit constexpr StringView(const char* str)
-      : data_(str), size_(__builtin_strlen(str)) {}
+      : data_(str), size_(length(str)) {}
 
   // Implicit constructor for constant C strings.
   template<size_t N>
   constexpr StringView(const char(&str)[N])
-      : data_(str), size_(__builtin_strlen(str)) {}
+      : data_(str), size_(length(str)) {}
 
   // Implicit constructor.
   StringView(const std::string& str) : data_(str.data()), size_(str.size()) {}
@@ -82,20 +86,20 @@ class StringView {
   }
 
   // Modifier methods.
-  constexpr void clear() {
+  void clear() {
     data_ = "";
     size_ = 0;
   }
-  constexpr void remove_prefix(size_t n) {
+  void remove_prefix(size_t n) {
     FTL_DCHECK(n <= size_);
     data_ += n;
     size_ -= n;
   }
-  constexpr void remove_suffix(size_t n) {
+  void remove_suffix(size_t n) {
     FTL_DCHECK(n <= size_);
     size_ -= n;
   }
-  constexpr void swap(StringView& other) {
+  void swap(StringView& other) {
     const char* data = data_;
     data_ = other.data_;
     other.data_ = data;
