@@ -11,8 +11,9 @@
 
 #if defined(OS_WIN)
 
-#define HANDLE_EINTR(x) x
-#define IGNORE_EINTR(x) x
+// Windows has no concept of EINTR.
+#define HANDLE_EINTR(x) (x)
+#define IGNORE_EINTR(x) (x)
 
 #else
 

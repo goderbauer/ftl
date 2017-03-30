@@ -69,11 +69,12 @@ bool RandBytes(unsigned char* output, size_t output_length) {
 #elif defined(OS_WIN)
   bool success = true;
   while (output_length > 0) {
-    const ULONG output_bytes_this_pass = static_cast<ULONG>(std::min(
-        output_length, static_cast<size_t>(std::numeric_limits<ULONG>::max())));
+    const ULONG output_bytes_this_pass = std::min(
+		static_cast<ULONG>(output_length), std::numeric_limits<ULONG>::max());
     success =
         RtlGenRandom(output, output_bytes_this_pass) != FALSE;
-    FTL_DCHECK(success);
+    if (!success)
+      return false;
     output_length -= output_bytes_this_pass;
     output += output_bytes_this_pass;
   }

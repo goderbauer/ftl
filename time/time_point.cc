@@ -53,11 +53,11 @@ TimePoint TimePoint::Now() {
 #elif defined(OS_WIN)
 
 TimePoint TimePoint::Now() {
-  LARGE_INTEGER li =  { 0 };
+  LARGE_INTEGER li = {0};
   FTL_DCHECK(QueryPerformanceFrequency(&li));
-  double freq = double(li.QuadPart)/1000000000.0; // nanoseconds in a second
+  double freq = double(li.QuadPart) / 1000000000.0;  // nanoseconds in a second
   FTL_DCHECK(QueryPerformanceCounter(&li));
-  return TimePoint(std::round(double(li.QuadPart)/freq));
+  return TimePoint(std::round(double(li.QuadPart) / freq));
 }
 
 #else

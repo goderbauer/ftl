@@ -4,20 +4,11 @@
 
 #include "lib/ftl/log_settings.h"
 
-#include "lib/ftl/build_config.h"
-
-#if defined(OS_WIN)
-#include <io.h>
-#define STDERR_FILENO _fileno(stderr)
-#define R_OK 4
-#else
-#include <unistd.h>
-#endif // defined(OS_WIN)
-
 #include "lib/ftl/files/file.h"
 #include "lib/ftl/files/scoped_temp_dir.h"
 #include "lib/ftl/command_line.h"
 #include "lib/ftl/logging.h"
+#include "lib/ftl/portable_unistd.h"
 #include "gtest/gtest.h"
 
 namespace ftl {

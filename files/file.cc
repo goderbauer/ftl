@@ -9,10 +9,8 @@
 #include <sys/stat.h>
 
 #if defined(OS_WIN)
-#define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
 #define FILE_CREATE_MODE _S_IREAD | _S_IWRITE
 #else
-#include <unistd.h>
 #define FILE_CREATE_MODE 0666
 #endif
 
@@ -20,6 +18,7 @@
 #include "lib/ftl/files/file_descriptor.h"
 #include "lib/ftl/files/unique_fd.h"
 #include "lib/ftl/logging.h"
+#include "lib/ftl/portable_unistd.h"
 
 namespace files {
 namespace {
